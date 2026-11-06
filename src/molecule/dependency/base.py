@@ -75,6 +75,7 @@ class Base(abc.ABC):
         try:
             self._config.app.run_command(
                 self._sh_command,
+                env=self.env,
                 debug=self._config.debug,
                 check=True,
                 command_borders=self._config.command_borders,
@@ -97,6 +98,7 @@ class Base(abc.ABC):
             try:
                 self._config.app.run_command(
                     self._sh_command,
+                    env=self.env,
                     debug=self._config.debug,
                     check=True,
                     command_borders=self._config.command_borders,

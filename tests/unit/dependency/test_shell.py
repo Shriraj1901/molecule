@@ -126,6 +126,7 @@ def test_shell_execute(  # type: ignore[no-untyped-def]  # noqa: ANN201, D103
 
         patched_run_command.assert_called_once_with(
             "patched-command",
+            env=_instance.env,
             debug=False,
             check=True,
             command_borders=True,
@@ -142,6 +143,18 @@ def test_shell_execute(  # type: ignore[no-untyped-def]  # noqa: ANN201, D103
         record = success_records[0]
         assert hasattr(record, "molecule_scenario")
         assert record.molecule_scenario == "default"
+
+
+@pytest.mark.parametrize(
+    "config_instance",
+    ["_dependency_section_data"],  # noqa: PT007
+    indirect=True,
+)
+def test_shell_execute_passes_configured_env(patched_run_command, _instance):  # type: ignore[no-untyped-def]  # noqa: ANN201, PT019, D103
+    _instance._sh_command = "patched-command"
+    _instance.execute()
+
+    assert patched_run_command.call_args.kwargs["env"]["FOO"] == "bar"
 
 
 def test_shell_execute_does_not_execute_when_disabled(  # type: ignore[no-untyped-def]  # noqa: ANN201, D103

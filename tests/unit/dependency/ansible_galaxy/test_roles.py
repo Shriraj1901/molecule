@@ -165,6 +165,7 @@ def test_execute(  # type: ignore[no-untyped-def]  # noqa: ANN201, D103
 
     patched_run_command.assert_called_once_with(
         "patched-command",
+        env=_instance.env,
         debug=False,
         check=True,
         command_borders=True,
